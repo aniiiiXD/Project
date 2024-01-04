@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="my_png_model">
+    <static>true</static>
+
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>1 1</size>
+          </plane>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Red</name>
+          </script>
+        </material>
+      </visual>
+
+      <pose>0 0 0.5 0 0 0</pose>
+      <visual name="image">
+        <pose>0 0 0</pose>
+        <geometry>
+          <image>
+            <uri>file://Marker1.png</uri>
+          </image>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
+

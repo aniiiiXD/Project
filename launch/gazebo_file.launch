@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- Arguments for Gazebo -->
+         <arg name="world_name" value="$(find mobile_robot)/worlds/maze.world"/>
+      </include>
+   
+
+    <param name="robot_description" command="xacro '$(find mobile_robot)/urdf/rover.urdf.xacro'"/>
+    <arg name="rviz_config_file" default="$(find mobile_robot)/config/robot.rviz"/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config_file)"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-z 1.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
+        
+        <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">    
+      <remap from="image" to="/image_raw"/>  
+    </node>
+    
+    <rosparam file="$(find mobile_robot)/config/diff.yaml" command="load"/>
+
+    <node name="rover_controller_spawner" pkg="controller_manager" type="spawner"
+     args="rover_joint_publisher rover_velocity_controller"/>
+    <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+      <param name="default_topic" value="/rover_velocity_controller/cmd_vel"/>
+    </node>
+      
+    <node name="pid_controller" pkg="mobile_robot" type="controls.py"
+        output="screen"/>
+  
+</launch>

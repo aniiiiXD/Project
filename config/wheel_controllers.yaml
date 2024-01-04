@@ -1,0 +1,32 @@
+wheel_rear_right_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: wheel_rear_right_joint
+  pid:
+    p: 100.0
+    i: 0.01
+    d: 10.0
+
+wheel_front_right_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: wheel_front_right_joint
+  pid:
+    p: 100.0
+    i: 0.01
+    d: 10.0
+
+wheel_front_left_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: wheel_front_left_joint
+  pid:
+    p: 100.0
+    i: 0.01
+    d: 10.0
+
+wheel_rear_left_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: wheel_rear_left_joint
+  pid:
+    p: 100.0
+    i: 0.01
+    d: 10.0
+

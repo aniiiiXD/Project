@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- Arguments for Gazebo -->
+         <arg name="world_name" value="$(find mobile_robot)/worlds/your_world.world"/>
+      </include>
+
+
+    <param name="robot_description" command="xacro '$(find mobile_robot)/urdf/rover1.urdf.xacro'"/>
+    <arg name="rviz_config_file" default="$(find mobile_robot)/config/robot.rviz"/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config_file)"/>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-z 1.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
+   
+   
+    <gazebo_ros gazebo_gui="false" gazebo_ros_args="-s $(arg world_name)">
+      <parameter name="robot_description" command="$(find xacro)/xacro --inorder '$(find mobile_robot)/urdf/rover.urdf.xacro'" />
+    </gazebo_ros>
+    
+    <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+    args="r2d2_diff_drive_controller"/>
+    <node name="rqt_robot_steering" pkg="rqt_robot_steering"              type="rqt_robot_steering">
+      <param name="default_topic" value="/r2d2_diff_drive_controller/cmd_vel"/>
+    </node>
+
+
+</launch>

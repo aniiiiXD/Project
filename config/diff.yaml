@@ -1,0 +1,34 @@
+rover_joint_publisher:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 50
+
+rover_velocity_controller:
+  type: "diff_drive_controller/DiffDriveController"
+  left_wheel: ['wheel_front_left_joint', 'wheel_rear_left_joint']
+  right_wheel: ['wheel_front_right_joint', 'wheel_rear_right_joint']
+  publish_rate: 50
+  pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
+  twist_covariance_diagonal: [0.001, 0.001, 0.001, 1000000.0, 1000000.0, 0.03]
+  cmd_vel_timeout: 0.25
+
+  k_l: 0.1
+  k_r: 0.1
+
+  enable_odom_tf: true
+
+  wheel_separation_multiplier: 1.5
+  wheel_radius_multiplier: 1.0
+
+  linear:
+    x:
+      has_velocity_limits: true
+      max_velocity: 10
+      has_acceleration_limits: true
+      max_acceleration: 10.0
+  angular:
+    z:
+      has_velocity_limits: true
+      max_velocity: 5.0
+      has_acceleration_limits: true
+      max_acceleration: 6.0
+
