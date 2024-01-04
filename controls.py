@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from geometry_msgs.msg import Twist
@@ -35,19 +35,18 @@ class DifferentialDriveController:
         if self.current_goal is None:
             return
 
-        # Extract orientation from odometry message
+       
         orientation = msg.pose.pose.orientation
         euler_angles = euler_from_quaternion([orientation.x, orientation.y, orientation.z, orientation.w])
         yaw = euler_angles[2]
 
-        # Calculate error (e.g., desired_yaw - current_yaw)
+        
         desired_yaw = math.atan2(self.current_goal[1] - msg.pose.pose.position.y, self.current_goal[0] - msg.pose.pose.position.x)
         error = desired_yaw - yaw
 
-        # Use PID controller to compute angular velocity
+        
         angular_vel = self.pid_controller.compute(error)
 
-        # Publish command
         cmd_vel_msg = Twist()
         cmd_vel_msg.angular.z = angular_vel
         self.cmd_pub.publish(cmd_vel_msg)
