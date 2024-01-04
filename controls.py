@@ -27,7 +27,7 @@ class DifferentialDriveController:
         rospy.init_node('diff_drive_controller')
         self.cmd_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         self.odom_sub = rospy.Subscriber('/odom', Odometry, self.odom_callback)
-        self.pid_controller = PIDController(kp=1.0, ki=0.0, kd=0.0)
+        self.pid_controller = PIDController(kp=5.0, ki=0.0, kd=0.0)
         self.path_sub = rospy.Subscriber('/maze_path', Path, self.path_callback)
         self.current_goal = None
 
